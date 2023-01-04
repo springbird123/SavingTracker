@@ -4,6 +4,7 @@ from art import *
 import datetime
 import time
 import random
+import functions
 clear = lambda: os.system('cls')
 logo = text2art("Saving Goal")
 
@@ -29,7 +30,6 @@ def main_menu():
             elif ipt == 2:
                 add_money()
             elif ipt == 3:
-                view_goal()
                 edit_goal()
             elif ipt == 4:
                 view_achieved()
@@ -81,7 +81,7 @@ def add_money():
     df = pd.read_csv('saving_goal.csv')
     # handle the error if input is not the index
     while True:
-        index = input("Please enter the index on the left side of the saving goal that you want to add the money: ")
+        index = input("Please enter the index of the saving goal you want to add the money: ")
         try:
             df.loc[int(index)]
         except:
@@ -123,7 +123,8 @@ def add_money():
 
 #function for editing an existing saving goal
 def edit_goal():
-    clear()
+    view_goal()
+    print
 
 
 #function for viewing the achieved saving goals
