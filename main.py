@@ -100,14 +100,23 @@ def add_money():
     # update the saving amount from the file
     df.loc[int(index), ['Current_amount']] = df.loc[int(index), ['Current_amount']] + float(add)
     current_amount = float(df.loc[index, ['Current_amount']])
-    # updating the saving process with '%' form
+
+    # check if the goal is accomplished
     goal_amount = df.loc[int(index), ['Goal_amount']]
-    df.loc[int(index), ['Process']] = '%.2f%%' % (current_amount / goal_amount * 100)
-    # save the update in the file
-    df.to_csv('./saving_goal.csv', index=False)
-    # display the updated amount
-    view_goal() 
-    print("Your new contribution has been added!")
+    if current_amount >= goal_amount:
+        clear()
+        text2art("Congratulations! ")
+        print('Congratulations! You have successfully reached your saving goal!')
+        print('Now you can return to menu to see your achieved goals')            
+    
+    else:
+        # updating the saving process with '%' form
+        df.loc[int(index), ['Process']] = '%.2f%%' % (current_amount / goal_amount * 100)
+        # save the update in the file
+        df.to_csv('./saving_goal.csv', index=False)
+        # display the updated amount and process
+        view_goal() 
+        print("Your new contribution has been added!")
     input("Please Press Enter to back to menu:")
     main_menu()
 
