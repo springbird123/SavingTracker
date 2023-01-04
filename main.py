@@ -58,5 +58,4 @@ def view_goal():
     clear()
     print(pd.read_csv('./saving_goal.csv'))
 
-def     
 main_menu()
