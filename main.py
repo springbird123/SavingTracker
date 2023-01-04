@@ -79,24 +79,24 @@ def add_money():
     view_goal()
     # read csv file
     df = pd.read_csv('saving_goal.csv')
+    # handle the error if input is not the index
     while True:
         index = input("Please enter the index on the left side of the saving goal that you want to add the money: ")
         try:
-            index = int(index)
-            break
-        except ValueError:
+            df.loc[int(index)]
+        except:
             print("Please enter a valid index")
-        for i in df.index:
-            if i == index:
-                    break
-            else:
-                print("Please enter a valid index")
-        add = input("Please enter the amount you want to add:")
+        else:
+            break
+    # handle the error if input is not a number
+    while True:
+        add = input("Please enter the money amount you want to add:")
         try:
             add = float(add)
             break
         except ValueError:
             print("Please enter a valid amount")
+
     # update the saving amount from the file
     df.loc[int(index), ['Current_amount']] = df.loc[int(index), ['Current_amount']] + float(add)
     current_amount = float(df.loc[index, ['Current_amount']])
