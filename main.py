@@ -66,14 +66,33 @@ def create_goal():
 
 def view_goal():
     clear()
-    print(pd.read_csv('./saving_goal.csv'))
+    df = pd.read_csv('saving_goal.csv')
+    print(df)
+
+def add_money():
+    view_goal()
+    df = pd.read_csv('saving_goal.csv')
+    index = input("Please enter the index of the targeted saving goal: ")
+    add = input("Please enter the amount you want to add:")
+    current_amount = df.loc[int(index), ['Current_amount']]
+    df.loc[int(index), ['Current_amount']] = current_amount + float(add)
+    df.to_csv('./saving_goal.csv', index=False)
+    view_goal() # allows users to see the updated saving goal
+    print("Your new saving goal has been added!")
+    input("Please Press Enter to back to menu:")
+    main_menu()
+
 
 def edit_goal():
     pass
 
-def add_money():
-    pass
+
 
 def view_achieved():
     clear()
+
+def percentage():
+
+
 main_menu()
+
