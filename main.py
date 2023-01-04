@@ -40,22 +40,23 @@ def main_menu():
     except ValueError:
         print("Please enter a valid number:")
 
-def create_goal():
-    goal_list = pd.read_csv()
+def create_goal():    
     goal_name = input("Please enter the goal name: ")
     amount = input("Please enter the amount you want save: ")
-
-
-
-
+    goal_list = [goal_name, 0, amount, '0%']
+    df = pd.read_csv('saving_goal.csv')
+    df.loc[len(df)] = goal_list
+    df.to_csv('saving_goal.csv', index=False)
     print("Your new saving goal has been created!")
+    input("Please Press Enter to back to menu:")
+    main_menu()
 
-saving_goals = {
-    "Travel to Tibet": [0,3000]
-}
 
 def view_goal():
     clear()
     print(pd.read_csv('./saving_goal.csv'))
+
+def edit_goal():
+    pass
 
 main_menu()
