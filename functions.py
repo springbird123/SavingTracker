@@ -8,6 +8,6 @@ def input_index(x):
         try:
             df.loc[int(index)]
         except:
-            print("Please enter a valid index")
+            print("Invalid index, please try again.")
         else:
-            return index
+            return index, df
