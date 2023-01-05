@@ -6,6 +6,8 @@ import time
 from functions import *
 clear = lambda: os.system('cls')
 logo = text2art("Saving Goal")
+index = 0
+df = pd.read_csv('saving_goal.csv')
 
 # clear the screen with logo and welcome message
 def welcome():
@@ -56,7 +58,6 @@ def create_goal():
             print("Please enter a valid amount")
     goal_list = [goal_name, 0, amount, '0%']
     #save the goal to the csv file
-    df = pd.read_csv('saving_goal.csv')
     df.loc[len(df)] = goal_list
     df.to_csv('saving_goal.csv', index=False)
     print("Your new saving goal has been created!")
@@ -64,8 +65,7 @@ def create_goal():
     main_menu()
 
 #display the ongoing saving goals
-def view_goal():
-    df = pd.read_csv('saving_goal.csv')    
+def view_goal():  
     clear()
     # handle the error if saving goal list is empty      
     try: 
@@ -81,8 +81,6 @@ def view_goal():
 
 
 def add_money():
-    # read csv file
-    df = pd.read_csv('saving_goal.csv')
     #display the ongoing saving goals
     view_goal()      
     # handle the error if input is not the index     
@@ -124,8 +122,6 @@ def add_money():
 
 #function for editing an existing saving goal
 def edit_goal():
-    # read csv file
-    df = pd.read_csv('saving_goal.csv')
     #display the ongoing saving goals
     view_goal()       
     #display edit menu  
