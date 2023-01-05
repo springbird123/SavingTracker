@@ -3,7 +3,6 @@ import os
 from art import *
 import datetime
 import time
-import random
 from functions import *
 clear = lambda: os.system('cls')
 logo = text2art("Saving Goal")
@@ -21,9 +20,8 @@ def main_menu():
         try: 
             print("1. Creat a New Saving Goal")
             print("2. Adding money to Saving Goal")
-            print("3. View and Edit Exsiting Saving Goals")
-            print("4. View Achieved Saving Goals")
-            print("5. Exit")
+            print("3. View and Edit all Saving Goals")
+            print("4. Exit")
             ipt = int(input("Please enter the number:"))
             if ipt == 1:
                 create_goal()
@@ -33,8 +31,6 @@ def main_menu():
             elif ipt == 3:
                 edit_goal()
             elif ipt == 4:
-                view_achieved()
-            elif ipt == 5:
                 clear()
                 print("Thank you! See you next time!")
                 exit()
@@ -69,20 +65,27 @@ def create_goal():
 
 #display the ongoing saving goals
 def view_goal():
+    df = pd.read_csv('saving_goal.csv')    
     clear()
+    # handle the error if saving goal list is empty      
+    try: 
+        df.loc[0]
+    except:
+        clear()
+        tprint("EMPTY.....")
+        input('There is no saving goal yet, return to the main menu to create a new one!')
+        main_menu()  
     print(logo)
-    df = pd.read_csv('saving_goal.csv')
     print(df)
     print("")
 
 
 def add_money():
-    #display the ongoing saving goals
-    view_goal()
     # read csv file
     df = pd.read_csv('saving_goal.csv')
-    # handle the error if input is not the index
-    #input_index('add money')      
+    #display the ongoing saving goals
+    view_goal()      
+    # handle the error if input is not the index     
     try:
         index = input("Please enter the index of the saving goal that you want to add money: ")
         df.loc[int(index)]
@@ -121,16 +124,10 @@ def add_money():
 
 #function for editing an existing saving goal
 def edit_goal():
-    view_goal()
     # read csv file
     df = pd.read_csv('saving_goal.csv')
-    # handle the error if input is not the index
-    try:
-        index = input("Please enter the index of the saving goal that you want to edit: ")
-        df.loc[int(index)]
-    except:
-        input("Invalid index, please press enter to try again:")
-        edit_goal()    
+    #display the ongoing saving goals
+    view_goal()       
     #display edit menu  
     print('')   
     print('Edit 1. Edit the goal name')
@@ -139,9 +136,17 @@ def edit_goal():
     print('Edit 4. Reselect the goal')
     print('Edit 5. Return to the main menu')    
     print('')    
+    # handle the error if input is not the index     
+    try:
+        index = input("Please enter the index of the saving goal that you want to add money: ")
+        df.loc[int(index)]
+    except:
+        input("Invalid index, please press enter to try again:")
+        add_money()
     while True:
-        try: # check if the amount input is a valid number        
-            ipt = int(input('Please enter the edit number(1-5):'))
+        # check if the amount input is a valid number 
+        try:        
+            ipt = int(input('Please enter the edit number(1-5): Edit '))
             if ipt == 1:
                 new_name = input("Please enter the new goal name: ")
                 df.loc[int(index), ['Goal_name']] = new_name
@@ -178,9 +183,4 @@ def view_achieved():
     input("Please Press Enter to back to menu:")
     main_menu()
 
-
-
-
 main_menu()
-
-3
