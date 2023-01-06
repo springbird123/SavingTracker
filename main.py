@@ -4,6 +4,10 @@ from art import *
 import datetime
 import time
 from functions import *
+
+
+
+
 clear = lambda: os.system('cls')
 logo = text2art("Saving Goal")
 
@@ -91,7 +95,7 @@ def add_money():
     # handle the error if input is not the index     
     try:
         df = pd.read_csv('saving_goal.csv')
-        index = input("Please enter the index of the saving goal that you want to add money: ")
+        index = input("Please enter the index on left side of the saving goal name that you want to add money: ")
         df.loc[int(index)]
     except:
         input("Invalid index, please press enter to try again:")
@@ -104,32 +108,8 @@ def add_money():
         print("Please enter a valid amount")
     # update the saving amount from the file
     df.loc[int(index), ['Current_amount']] = df.loc[int(index), ['Current_amount']] + float(add)
-    # check if the goal is accomplished
-    current_amount = float(df.loc[int(index), ['Current_amount']])
-    goal_amount = float(df.loc[int(index), ['Goal_amount']])
-    # error handling to prevent amount below 0
-    if current_amount <=0 or goal_amount < 0:
-        print('current/goal amount can not below 0, please try again' )
-        input('Please press enter to return the main menu:')
-        main_menu()
-    # congratulation page with updated data when goal is reached  
-    elif current_amount >= goal_amount:
-        clear()
-        # ASCII text from art package
-        tprint("100%! Congratulations!") 
-        print('Congratulations! You have successfully reached your saving goal!')
-        # updating the saving process
-        df.loc[int(index), ['Process']] = "Completed!"
-        df.to_csv('./saving_goal.csv', index=False)
-        input('Now you can return to menu to see your achieved goals:') 
-        main_menu()
-    # updating the saving process with '%' form                  
-    else:
-        df.loc[int(index), ['Process']] = '%.2f%%' % (current_amount / goal_amount * 100)
-        # save the update in the file
-        df.to_csv('./saving_goal.csv', index=False)
-        # display the updated amount and process
-        view_goal() 
+    # check process
+    check_progress(df, index)
     print("Your new contribution has been added!")
     input("Please Press Enter to back to menu:")
     main_menu()
@@ -138,7 +118,7 @@ def add_money():
 def edit_goal():
     #display the ongoing saving goals
     view_goal()       
-    # handle the error if input is not the index     
+    # handle the error if input is not a index     
     try:
         df = pd.read_csv('saving_goal.csv')
         index = input("Please enter the index of the saving goal that you want to edit: ")
@@ -170,44 +150,22 @@ def edit_goal():
             #edit the goal amount
             elif ipt == 2:
                 new_amount = input("Please enter the new goal amount: ")
-                df.loc[int(index), ['Goal_amount']] = new_amount            
-                current_amount = float(df.loc[int(index), ['Current_amount']])
-                goal_amount = float(df.loc[int(index), ['Goal_amount']])                               
-                # error handling to prevent amount below 0
-                if current_amount <=0 or goal_amount < 0:
-                    print('current/goal amount can not below 0, please try again' )
-                    input('Please press enter to return the main menu:')
-                    main_menu()
-                # congratulation page with updated data when goal is reached  
-                elif current_amount >= goal_amount:
-                    clear()
-                    # ASCII text from art package
-                    tprint("100%! Congratulations!") 
-                    Goal_name = str(df.loc[int(index), ['Goal_name']])
-                    print('Congratulations! You have successfully reached your saving goal!')
-                    # updating the saving process
-                    df.loc[int(index), ['Process']] = "Completed!"
-                    df.to_csv('./saving_goal.csv', index=False)
-                    input('Now you can return to menu to see your achieved goals:') 
-                    main_menu()        
-                else:
-                    # updating the saving process with '%' form
-                    df.loc[int(index), ['Process']] = '%.2f%%' % (current_amount / goal_amount * 100)
-                    # save the update in the file
-                    df.to_csv('./saving_goal.csv', index=False)
-                    # display the updated amount and process
-                    view_goal() 
+                df.loc[int(index), ['Goal_amount']] = new_amount  
+                # method check process 
+                check_progress(df, index)
                 input('You successfully updated the goal amount, please press enter to return to the main menu')
                 main_menu()
-
+            # delete the goal
             elif ipt == 3:   
                 df.drop([int(index), ], inplace=True)    
                 df.to_csv('./saving_goal.csv', index=False)  
                 view_goal()      
-                input('You successfully deleted the selected goal, please press enter to return to the main menu')
+                input('You successfully deleted the selected goal, please press enter to return to the main menu:')
                 main_menu() 
+            # reselect the goal    
             elif ipt == 4:
                 edit_goal()   
+            # reselect the goal      
             elif ipt == 5:
                 main_menu()
             else:
@@ -215,6 +173,31 @@ def edit_goal():
         except ValueError:
             input("Invalid amount, please press enter to try again:")
 
-
+def check_progress(df, index):
+    current_amount = float(df.loc[int(index), ['Current_amount']])
+    goal_amount = float(df.loc[int(index), ['Goal_amount']])
+    # error handling to prevent amount below 0
+    if current_amount <=0 or goal_amount < 0:
+        print('current/goal amount can not below 0, please try again' )
+        input('Please press enter to return the main menu:')
+        main_menu()
+    # congratulation page with updated data when goal is reached  
+    elif current_amount >= goal_amount:
+        clear()
+        # ASCII text from art package
+        tprint("100%! Congratulations!") 
+        Goal_name = str(df.loc[int(index), ['Goal_name']])
+        print('Congratulations! You have successfully reached your saving goal!')
+        # updating the saving process
+        df.loc[int(index), ['Process']] = "Completed!"
+        input('Now you can return to menu to see your achieved goals:') 
+        main_menu()              
+    else:
+        # updating the saving process with '%' form
+        df.loc[int(index), ['Process']] = '%.2f%%' % (current_amount / goal_amount * 100)
+        # save the update in the file
+        df.to_csv('./saving_goal.csv', index=False)
+        # display the updated amount and process
+        view_goal() 
 
 main_menu()
