@@ -3,7 +3,6 @@ import os
 from art import *
 import datetime
 import time
-from functions import *
 
 clear = lambda: os.system('clear')
 logo = text2art("Saving Goal")
