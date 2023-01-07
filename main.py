@@ -5,10 +5,7 @@ import datetime
 import time
 from functions import *
 
-
-
-
-clear = lambda: os.system('cls')
+clear = lambda: os.system('clear')
 logo = text2art("Saving Goal")
 
 
