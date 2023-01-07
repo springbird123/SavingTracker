@@ -34,6 +34,7 @@ def main_menu():
                 break
             elif ipt == 3:
                 edit_goal()
+            # Exit    
             elif ipt == 4:
                 clear()
                 print("Thank you! See you next time!")
@@ -47,7 +48,7 @@ def main_menu():
 
 # function for creating a new goal
 def create_goal():  
-    df = pd.read_csv('saving_goal.csv')  
+    print('---------- Create New Goal ----------')
     goal_name = input("Please enter the goal name: ")
     while True:
         # check if the amount input is a valid number
@@ -62,6 +63,8 @@ def create_goal():
         except ValueError:
             print("Please enter a valid amount")
     goal_list = [goal_name, 0, amount, '0%']
+    # read the csv file
+    df = pd.read_csv('saving_goal.csv')  
     #save the goal to the csv file
     df.loc[len(df)] = goal_list
     df.to_csv('saving_goal.csv', index=False)
@@ -72,6 +75,7 @@ def create_goal():
 #display the ongoing saving goals
 def view_goal():  
     clear()
+    #read csv file
     df = pd.read_csv('saving_goal.csv')
     # handle the error if saving goal list is empty      
     try: 
@@ -89,7 +93,7 @@ def view_goal():
 def add_money():
     #display the ongoing saving goals
     view_goal()      
-    # handle the error if input is not the index     
+    # handle the error if input is not the index  #      
     try:
         df = pd.read_csv('saving_goal.csv')
         index = input("Please enter the index on left side of the saving goal name that you want to add money: ")
@@ -97,8 +101,8 @@ def add_money():
     except:
         input("Invalid index, please press enter to try again:")
         add_money()
-    # handle the error if input is not a number
     add = input("Please enter the money amount you want to add:")
+    # handle the error if input is not a number
     try:
         add = float(add)
     except ValueError:
@@ -139,6 +143,7 @@ def edit_goal():
             ipt = int(input('Please enter the edit number(1-5): Edit '))
             # edit the goal name
             if ipt == 1:
+                print('----------edit the goal name----------')
                 new_name = input("Please enter the new goal name: ")
                 df.loc[int(index), ['Goal_name']] = new_name
                 df.to_csv('./saving_goal.csv', index=False)
@@ -147,6 +152,7 @@ def edit_goal():
                 main_menu()
             #edit the goal amount
             elif ipt == 2:
+                print('----------edit the goal amount----------')
                 new_amount = input("Please enter the new goal amount: ")
                 df.loc[int(index), ['Goal_amount']] = new_amount  
                 # method check process 
@@ -163,7 +169,7 @@ def edit_goal():
             # reselect the goal    
             elif ipt == 4:
                 edit_goal()   
-            # reselect the goal      
+            # return to the main menu      
             elif ipt == 5:
                 main_menu()
             else:

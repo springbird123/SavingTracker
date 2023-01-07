@@ -1,0 +1,41 @@
+Manual Test 1
+To test weather a new goal is correctly added to saving_goal.csv.
+
+Case 1, a new goal with the name "A new goal" and a valid saving amount (eg: 100) is saved in saving_goal.csv:
+Run main.py, screen is cleared. Then the logo with welcome message, and main menu will be displayed on the screen.
+From menu, input "1000" to run option "1. Creat a New Saving Goal". Then the screen will show "Please enter the goal name: "
+Input "A new goal" as the name of the goal and press enter. Then the screen will show "Please enter the amount you want to save: ".
+Input "1000". Then the screen will show "Your new saving goal has been created!" and "Please Press Enter to back to menu: ". The "saving_goal.csv" file will include a new goal named "A new goal" with current amount "0", goal amount "100", and process "0%".
+Press "Enter", main menu displays.
+Case 2, input a new goal with the name "A new goal" and an invalid saving amount (eg: -100, x). This will not successfully create a new goal until a valid saving amount is input:
+Run main.py, screen is cleared. Then the logo with welcome message, and main menu will be displayed on the screen.
+From menu, input "1" to run option "1. Creat a New Saving Goal". Then the screen will show "Please enter the goal name: "
+Input "A new goal" as the name of the goal and press enter. Then the screen will show "Please enter the amount you want to save: ".
+Input "-100". The screen will show "Please enter a positive number." and it will show "Please enter the amount you want to save: " again. The "saving_goal.csv" file is not changed
+Input "x". The screen will show "Please enter a valid amount" and "Please enter the amount you want to save: " again. The "saving_goal.csv" file is not changed
+Input "100". The screen will show "Your new saving goal has been created!". and "Please Press Enter to back to menu: ". The "saving_goal.csv" file will now include a new goal named "A new goal" with a defalut index 0, current amount "0", current amount "100", and process "0%".
+Press Enter, main menu displays.
+Manual Test 2
+Check when edit the goal amount of the example goal "Tibet Travel (example)" which has index 0, current amount "500", goal amount "2000", and process "25%", wheather the new goal amount input is excauted correctly.
+
+case 1, input a vaild new goal amount(1000) which is greater than current amount(500):
+Run main.py, screen is cleared. Then the logo with welcome message, and main menu will be displayed on the screen.
+From menu, input "3" to enter "3. View and Edit all Saving Goals". Main menu is cleared and then the goal list which includes "Tibet Travel (example)" with a defalut index 0, current amount "500", goal amount "2000", and process "25%" is displayed. The screen also displays "Please enter the index of the saving goal that you want to edit: "
+input 0. The editing menu is displayed, and screen also displays "Please enter the edit number(1-5): Edit "
+input 2, screen displays "Please enter the new goal amount: "
+input 1000. The screen displays the updated "Tibet Travel (Example)"'s goal amount as 1000, and process changes to 50.00%. The screen also prompts "You successfully updated the goal amount, please press enter to return to the main menu"
+Press enter. The screen is cleared and displays main menu.
+case 2, input a vaild new goal amount(400) which is less than current amount (currently saved amount) (eg. 500):
+Run main.py, screen is cleared. Then the logo with welcome message, and main menu will be displayed on the screen.
+From menu, input "3" to enter "3. View and Edit all Saving Goals". Main menu is cleared and then the goal list which includes "Tibet Travel (example)" with a defalut index 0, current amount "500", goal amount "2000", and process "25%" is displayed. The screen also displays "Please enter the index of the saving goal that you want to edit: "
+input 0. The editing menu is displayed, and screen also displays "Please enter the edit number(1-5): Edit "
+input 2, screen displays "Please enter the new goal amount: "
+input 400. The screen is cleared and displays congratulations message. In saving_goal.csv file "Tibet Travel (Example)"'s goal amount updates to 400, its process updates to "Completed!".
+Press enter, screen is cleared and displays main menu.
+case 3: input a invaild new goal amount(-1):
+Run main.py, screen is cleared. Then the logo with welcome message, and main menu will be displayed on the screen.
+From menu, input "3" to enter "3. View and Edit all Saving Goals". Main menu is cleared and then the goal list which includes "Tibet Travel (example)" with a defalut index 0, current amount "500", goal amount "2000", and process "25%" is displayed. The screen also displays "Please enter the index of the saving goal that you want to edit: "
+Input 0. The editing menu is displayed, and screen also displays "Please enter the edit number(1-5): Edit "
+Input 2. The screen displays "Please enter the new goal amount: "
+Input -1. The screen displays"current/goal amount can not be below 0, please try again", and it displays"Please press enter to return the main menu:".
+Press enter, screen is cleared and displays main menu.
