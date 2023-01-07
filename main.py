@@ -118,7 +118,7 @@ def add_money():
 def edit_goal():
     #display the ongoing saving goals
     view_goal()       
-    # handle the error if input is not a index     
+    # input the index  
     try:
         df = pd.read_csv('saving_goal.csv')
         index = input("Please enter the index of the saving goal that you want to edit: ")
@@ -129,6 +129,7 @@ def edit_goal():
     #display edit menu  
     print('')   
     print('----------editing menu----------')
+    print('')
     print('Edit 1. Edit the goal name')
     print('Edit 2. Edit the goal amount')
     print('Edit 3. Delete the selected goal')
@@ -169,16 +170,16 @@ def edit_goal():
             elif ipt == 5:
                 main_menu()
             else:
-                input("Invalid input, please press enter to try again:")
+                input("Invalid input, please try again:")
         except ValueError:
-            input("Invalid amount, please press enter to try again:")
+            input("Invalid amount, please again:")
 
 def check_progress(df, index):
     current_amount = float(df.loc[int(index), ['Current_amount']])
     goal_amount = float(df.loc[int(index), ['Goal_amount']])
     # error handling to prevent amount below 0
-    if current_amount <=0 or goal_amount < 0:
-        print('current/goal amount can not below 0, please try again' )
+    if current_amount <0 or goal_amount <= 0:
+        print('current/goal amount can not be below 0, please try again.' )
         input('Please press enter to return the main menu:')
         main_menu()
     # congratulation page with updated data when goal is reached  
@@ -190,6 +191,7 @@ def check_progress(df, index):
         print('Congratulations! You have successfully reached your saving goal!')
         # updating the saving process
         df.loc[int(index), ['Process']] = "Completed!"
+        df.to_csv('./saving_goal.csv', index=False)
         input('Now you can return to menu to see your achieved goals:') 
         main_menu()              
     else:
